@@ -61,4 +61,4 @@ Therefore, this runtime will be at worst quadratic, or $O(n^2)$ in Big-O notatio
 
 > Your tests should cover the following input scenarios: an empty list, a decreasing list (i.e. the longest increasing subsequence has length 1), an increasing list (i.e. the longest increasing subsequence is the whole list), and at least one additional test.
 
-**See attached file `sdaitzman.py` in same directory and Canvas submission**
+**See attached file [sdaitzman.py](https://github.com/sdaitzman/DSA2020/blob/master/Week%201/sdaitzman.py) in same directory and Canvas submission**
