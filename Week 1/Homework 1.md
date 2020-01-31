@@ -29,7 +29,7 @@ iterate through list m
     currentNum = current element in list
 
     if first element in list
-        current[0] = currentNum
+        currentList[0] = currentNum
         longest[0] = currentNum
     else
         if currentNum > last
@@ -57,3 +57,5 @@ Therefore, this runtime will be at worst quadratic, or $O(n^2)$ in Big-O notatio
 > Write a function that implements your algorithm from Q2 and a corresponding test function. For this assignment, you can put all your test cases into a single function. Also, be sure to include appropriate documentation in your code (e.g. docstrings and any necessary comments).
 
 > Your tests should cover the following input scenarios: an empty list, a decreasing list (i.e. the longest increasing subsequence has length 1), an increasing list (i.e. the longest increasing subsequence is the whole list), and at least one additional test.
+
+**See attached file `sdaitzman.py` in same directory and Canvas submission**
