@@ -34,6 +34,9 @@ iterate through list m
     else
         if currentNum > last
             append currentNum to currentList
+        else
+            reset currentList to just contain current number
+
         if length(currentList) > length(longest)
             longestList = currentList
     last = currentNum
