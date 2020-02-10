@@ -278,8 +278,9 @@ def index_dll_plot():
     plt.xlabel("Size of doubly linked list (items)")
     plt.ylabel("Time (seconds)")
     plt.legend()
-    plt.show()
     fig = plt.gcf()
+    plt.show()
+    plt.draw()
     fig.savefig('index_plot_dll.png', dpi=150)
 
 def index_pylist_plot():
@@ -300,8 +301,9 @@ def index_pylist_plot():
     plt.xlabel("Size of Python List (items)")
     plt.ylabel("Time (seconds)")
     plt.legend()
-    plt.show()
     fig = plt.gcf()
+    plt.show()
+    plt.draw()
     fig.savefig('index_plot_python_list.png', dpi=150)
 
 def multiply_dll_plot():
@@ -323,10 +325,11 @@ def multiply_dll_plot():
     plt.xlabel("Size of doubly linked list (items)")
     plt.ylabel("Time (seconds)")
     plt.legend()
-    plt.show()
     fig = plt.gcf()
+    plt.show()
+    plt.draw()
     fig.savefig('index_plot_dll.png', dpi=150)
 
-# index_dll_plot()
+index_dll_plot()
 # index_pylist_plot()
 # multiply_dll_plot()
