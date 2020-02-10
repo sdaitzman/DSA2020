@@ -311,7 +311,7 @@ def multiply_dll_plot():
     """ benchmarks at a variety of sizes """
     results = []
     max_n = 10000
-    plot_range = range(1,max_n,100)
+    plot_range = range(1,max_n,500)
     # TODO: make this a concentric loop
     for list_size in plot_range:
         print("Currently {}% complete.".format(list_size/max_n*100))
@@ -320,16 +320,16 @@ def multiply_dll_plot():
             l.push(i)
         t = timeit.Timer('l.multiply_all_pairs()', globals=locals())
         results.append(t.timeit(1))
-    plt.plot(plot_range, results, 'r*', label="Time to index a random key")
-    plt.title("Time to Index DLL")
+    plt.plot(plot_range, results, 'g*', label="Time to multiply unique node combinations")
+    plt.title("Time to Multiply Across DLL")
     plt.xlabel("Size of doubly linked list (items)")
     plt.ylabel("Time (seconds)")
     plt.legend()
     fig = plt.gcf()
     plt.show()
     plt.draw()
-    fig.savefig('index_plot_dll.png', dpi=150)
+    fig.savefig('multiply_all_plot_dll.png', dpi=150)
 
 # index_dll_plot()
 # index_pylist_plot()
-# multiply_dll_plot()
+multiply_dll_plot()
