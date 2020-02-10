@@ -47,7 +47,18 @@ class DLL:
 
     def insert_after(self, prev_node, val):
         ''' Adds a node with value equal to val in the list after prev_node '''
-    
+        new_node = Node(val=val, prev=prev_node)
+
+        if prev_node is self.last:
+            print("We're at the last node, y'all!")
+            self.last = new_node
+            new_node.next = None
+        else:
+            new_node.next = prev_node.next
+            prev_node.next.prev = new_node
+        prev_node.next = new_node
+
+
     def delete(self, node):
         ''' Removes node from the list '''
         if node is not self.last:
@@ -85,6 +96,26 @@ class DLL:
     def multiply_all_pairs(self):
         ''' Multiplies all unique pairs of nodes values for nodes i, j (i != j) 
         and returns the sum '''
+        i = self.first
+        j = self.first
+
+        total = 0
+
+        # O(n^2) is less than ideal, TODO: refactor this
+        # maybe calculate as we go, or find a more intelligent recursion
+        while i:
+            while j:
+                if i is not j:
+                    total += i.val * j.val
+                j = j.next
+            i = i.next
+            j = self.first
+        return total/2
+
+
+
+
+
 
 
 # ------- TESTS -------
@@ -182,3 +213,40 @@ def test_deletion_middle():
     assert dll.index(0).val == 4
     assert dll.index(1).val == 3
     assert dll.index(2).val == None
+
+def test_insertion_middle():
+    """ Checks basic insertion """
+    dll = DLL()
+    dll.push(2)
+    dll.push(3)
+    dll.push(4)
+    dll.insert_after(dll.index(1), 5)
+    assert dll.last.prev.val == 5
+    assert dll.length() == 4
+
+def test_insertion_end():
+    """ Checks basic insertion """
+    dll = DLL()
+    dll.push(2)
+    dll.push(3)
+    dll.push(4)
+    dll.insert_after(dll.index(2), 5)
+    assert dll.first.next.next.next.val == 5
+    assert dll.index(3).val == 5
+    assert dll.last.val == 5
+    assert dll.length() == 4
+
+def test_multiply():
+    """ Checks multiplication works as expected across all pairs """
+    dll = DLL()
+    dll.push(1)
+    dll.push(2)
+    dll.push(3)
+    assert dll.multiply_all_pairs() == 11
+
+def test_multiply_ones():
+    """ Checks multiplication returns the expected value for a pair """
+    dll = DLL()
+    dll.push(1)
+    dll.push(1)
+    assert dll.multiply_all_pairs() == 1
