@@ -260,45 +260,73 @@ def test_multiply_ones():
 
 
 # ------- TIMING -------
-
-def index_plot():
+def index_dll_plot():
+    """ Indexes my DLL and benchmarks at a variety of sizes """
     results = []
-    l = DLL()
-    n = 10000
-    plot_range = range(1,n,10)
-    for i in plot_range:
-        print("Currently {}% complete.".format(i/10000*100))
-        l.push(i)
-        t = timeit.Timer('l.index(random.randrange(i))', 'import random', globals=locals())
-        results.append(t.timeit(50))
-    plt.plot(plot_range, results, 'r*', label="Time to index a random key")
-    plt.title("Time to Index")
-    plt.xlabel("Size of doubly linked list (items)")
-    plt.ylabel("Time (seconds)")
-    plt.legend()
-    # plt.show()
-    fig = plt.gcf()
-    fig.savefig('index_plot.png', dpi=150)
-
-def index_plot():
-    results = []
-    l = DLL()
-    n = 10000
-    plot_range = range(1,n,10)
+    max_n = 10000
+    plot_range = range(1,max_n,100)
     # TODO: make this a concentric loop
-    for i in plot_range:
-        print("Currently {}% complete.".format(i/10000*100))
-        l.push(i)
-        t = timeit.Timer('l.index(random.randrange(i))', 'import random', globals=locals())
+    for list_size in plot_range:
+        print("Currently {}% complete.".format(list_size/max_n*100))
+        l = DLL()
+        for i in range(0,list_size):
+            l.push(i)
+        t = timeit.Timer('l.index(random.randrange(list_size))', 'import random', globals=locals())
         results.append(t.timeit(50))
     plt.plot(plot_range, results, 'r*', label="Time to index a random key")
-    plt.title("Time to Index")
+    plt.title("Time to Index DLL")
     plt.xlabel("Size of doubly linked list (items)")
     plt.ylabel("Time (seconds)")
     plt.legend()
-    # plt.show()
+    plt.show()
     fig = plt.gcf()
-    fig.savefig('index_plot.png', dpi=150)
-    
+    fig.savefig('index_plot_dll.png', dpi=150)
 
-index_plot()
+def index_pylist_plot():
+    """ Indexes a Python builtin list and benchmarks at a range of sizes """
+    results = []
+    max_n = 10000
+    plot_range = range(1,max_n,100)
+    for list_size in plot_range:
+        print("Currently {}% complete.".format(list_size/max_n*100))
+        l = []
+        for i in range(0,list_size):
+            l.append(i)
+        t = timeit.Timer('l[random.randrange(list_size)]', 'import random', globals=locals())
+        results.append(t.timeit(50))
+
+    plt.plot(plot_range, results, 'b*', label="Time to index a random key")
+    plt.title("Time to Index Python List")
+    plt.xlabel("Size of Python List (items)")
+    plt.ylabel("Time (seconds)")
+    plt.legend()
+    plt.show()
+    fig = plt.gcf()
+    fig.savefig('index_plot_python_list.png', dpi=150)
+
+def multiply_dll_plot():
+    """ Multiplies all unique number combinations in my DLL """
+    """ benchmarks at a variety of sizes """
+    results = []
+    max_n = 10000
+    plot_range = range(1,max_n,100)
+    # TODO: make this a concentric loop
+    for list_size in plot_range:
+        print("Currently {}% complete.".format(list_size/max_n*100))
+        l = DLL()
+        for i in range(0,list_size):
+            l.push(i)
+        t = timeit.Timer('l.multiply_all_pairs()', globals=locals())
+        results.append(t.timeit(1))
+    plt.plot(plot_range, results, 'r*', label="Time to index a random key")
+    plt.title("Time to Index DLL")
+    plt.xlabel("Size of doubly linked list (items)")
+    plt.ylabel("Time (seconds)")
+    plt.legend()
+    plt.show()
+    fig = plt.gcf()
+    fig.savefig('index_plot_dll.png', dpi=150)
+
+# index_dll_plot()
+# index_pylist_plot()
+# multiply_dll_plot()
