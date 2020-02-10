@@ -330,6 +330,6 @@ def multiply_dll_plot():
     plt.draw()
     fig.savefig('index_plot_dll.png', dpi=150)
 
-index_dll_plot()
+# index_dll_plot()
 # index_pylist_plot()
 # multiply_dll_plot()
