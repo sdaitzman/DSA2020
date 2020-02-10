@@ -50,6 +50,18 @@ class DLL:
     
     def delete(self, node):
         ''' Removes node from the list '''
+        if node is not self.last:
+            node.next.prev = node.prev
+        else:
+            self.last = node.prev
+            node.prev.next = None
+
+        if node is not self.first:
+            node.prev.next = node.next
+        else:
+            self.first = node.next
+            node.next.prev = None
+
 
     def index(self, i):
         ''' Returns the node at position i (i<n) '''
@@ -134,3 +146,39 @@ def test_index_overflow():
     assert dll.index(3).val == None
     assert dll.index(3).next == None
     assert dll.index(3).prev == None
+
+def test_deletion_first():
+    """ Checks that deleting first element works """
+    dll = DLL()
+    dll.push(2)
+    dll.push(3)
+    dll.push(4)
+    dll.delete(dll.index(0))
+    assert dll.length() == 2
+    assert dll.index(0).val == 3
+    assert dll.index(1).val == 2
+    assert dll.index(2).val == None
+
+def test_deletion_middle():
+    """ Checks that deleting middle element works """
+    dll = DLL()
+    dll.push(2)
+    dll.push(3)
+    dll.push(4)
+    dll.delete(dll.index(1))
+    assert dll.length() == 2
+    assert dll.index(0).val == 4
+    assert dll.index(1).val == 2
+    assert dll.index(2).val == None
+
+def test_deletion_middle():
+    """ Checks that deleting last element works """
+    dll = DLL()
+    dll.push(2)
+    dll.push(3)
+    dll.push(4)
+    dll.delete(dll.index(2))
+    assert dll.length() == 2
+    assert dll.index(0).val == 4
+    assert dll.index(1).val == 3
+    assert dll.index(2).val == None
