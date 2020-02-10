@@ -8,6 +8,7 @@ Sam Daitzman // DSA 2020
 import pytest
 import timeit
 import random
+import matplotlib.pyplot as plt
 
 class Node:
     def __init__(self,val=None,next=None,prev=None):
@@ -250,3 +251,54 @@ def test_multiply_ones():
     dll.push(1)
     dll.push(1)
     assert dll.multiply_all_pairs() == 1
+
+
+
+
+
+
+
+
+# ------- TIMING -------
+
+def index_plot():
+    results = []
+    l = DLL()
+    n = 10000
+    plot_range = range(1,n,10)
+    for i in plot_range:
+        print("Currently {}% complete.".format(i/10000*100))
+        l.push(i)
+        t = timeit.Timer('l.index(random.randrange(i))', 'import random', globals=locals())
+        results.append(t.timeit(50))
+    plt.plot(plot_range, results, 'r*', label="Time to index a random key")
+    plt.title("Time to Index")
+    plt.xlabel("Size of doubly linked list (items)")
+    plt.ylabel("Time (seconds)")
+    plt.legend()
+    # plt.show()
+    fig = plt.gcf()
+    fig.savefig('index_plot.png', dpi=150)
+
+def index_plot():
+    results = []
+    l = DLL()
+    n = 10000
+    plot_range = range(1,n,10)
+    # TODO: make this a concentric loop
+    for i in plot_range:
+        print("Currently {}% complete.".format(i/10000*100))
+        l.push(i)
+        t = timeit.Timer('l.index(random.randrange(i))', 'import random', globals=locals())
+        results.append(t.timeit(50))
+    plt.plot(plot_range, results, 'r*', label="Time to index a random key")
+    plt.title("Time to Index")
+    plt.xlabel("Size of doubly linked list (items)")
+    plt.ylabel("Time (seconds)")
+    plt.legend()
+    # plt.show()
+    fig = plt.gcf()
+    fig.savefig('index_plot.png', dpi=150)
+    
+
+index_plot()
