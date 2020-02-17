@@ -25,6 +25,7 @@ class DLL:
 
     def length(self):
         ''' Returns the number of nodes in the list '''
+        # TODO: work with empty DLL
         next = self.first.next
         nodes = 1
         while next:
@@ -53,7 +54,7 @@ class DLL:
         if prev_node is self.last:
             print("We're at the last node, y'all!")
             self.last = new_node
-            new_node.next = None
+            new_node.next = None # probably redundant, this kwarg is set by default to None
         else:
             new_node.next = prev_node.next
             prev_node.next.prev = new_node
@@ -77,6 +78,8 @@ class DLL:
 
     def index(self, i):
         ''' Returns the node at position i (i<n) '''
+        ''' Returns None for empty list '''
+        ''' Returns a None node for out-of-bounds index '''
         next = self.first
         current = 0
 
@@ -112,8 +115,6 @@ class DLL:
             i = i.next
             j = self.first
         return total/2
-
-
 
 
 
