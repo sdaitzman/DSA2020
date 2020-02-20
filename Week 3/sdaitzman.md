@@ -39,19 +39,14 @@ The pop operations are more complicated. The procedure that balances the front a
 Considering the aggregate of these operations intuitively, it makes sense that this would be $O(n)$ because our most expensive step in a series of operations is always a constant (1/2) times $O(n)$.
 
 Under the aggregate method:
-
+$$ \text{(swap labels A and C)} \leq \text{(pop first half)} \leq \text{(pop B to C)} \leq \text{(pop A to B)}  $$
 $$O(1) \leq O(\frac{n}{2}) \leq O(\frac{n}{2}) \leq O(\frac{n}{2})$$
 
+This operation gives us $\frac{n}{2}$ pops from a half of the list with $O(\frac{n}{2})$ time, so it comes out as:
 
+$$ \frac{O(\frac{n}{2})}{\frac{n}{2}}=O(1)\text{amortized}$$
 
-
-
-
-
-
-
-
-
+This works for pops from both sides of the list, since the operational cost will be the same. Thus, we have that all operations on this form of queue will take $O(1)$ amortized time.
 
 # 3. Data Structure Implementation
 > Construct a data structure that implements the following operations:
@@ -62,9 +57,24 @@ $$O(1) \leq O(\frac{n}{2}) \leq O(\frac{n}{2}) \leq O(\frac{n}{2})$$
 
 > (c) $find min$: Returns the minimum value in the set.
 
+See `./sdaitzman.py` for my implementation.
+
+## Prove the Correctness of Your Data Structure
+Enqueue will always work as expected, since it's just adding items to the beginning of the queue.
+
+At our first dequeue, we flip the entire "in" stack. In this base case, we know that we'll then get the first item that was added because it will be the last off the "in" stack, and therefore the last onto the "out" stack and first off of it. For every pop thereafter, the same holds. We know that this process can repeat until the final dequeue from the "out" stack, and at that point the flipping of the "in" stack will behave the same as it did previously.
+
+## Big-O Analysis: Potential Method
+I'm really confused about how to implement the potential method, but I've been working on this problem for way too long, so these are my notes. I've checked in with around 6 other students, and Dieter explained his approach to this problem to me in some detail:
+
+The potential function $\Phi(h)$, where h is the data structure at a particular state, tells us how much precharged time is available to pay for expensive operations down the road. Intuitively, I think of the potential function as the computer science equivalent of riding a bicycle up a hilly road, where reaching the top of a series of small hills makes it "free" to ride all the way down one large one.
+
+- $k$ is the 
+
 TODO: phi is just the number of items in the list and do it for the last one
 
 # Questions to Follow Up On/Think More About
 - In functions that are of big-O time $O(n*log(n))$, what base is the logarithm? Does it matter?
 - How do we choose a potential function? Where can I find the table that Alice showed in class?
 - How would I go about finding a useful potential function for the first exercise? What about the second one?
+- I'm **really confused about the potential method**.
