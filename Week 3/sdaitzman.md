@@ -65,16 +65,46 @@ Enqueue will always work as expected, since it's just adding items to the beginn
 At our first dequeue, we flip the entire "in" stack. In this base case, we know that we'll then get the first item that was added because it will be the last off the "in" stack, and therefore the last onto the "out" stack and first off of it. For every pop thereafter, the same holds. We know that this process can repeat until the final dequeue from the "out" stack, and at that point the flipping of the "in" stack will behave the same as it did previously.
 
 ## Big-O Analysis: Potential Method
-I'm really confused about how to implement the potential method, but I've been working on this problem for way too long, so these are my notes. I've checked in with around 6 other students, and Dieter explained his approach to this problem to me in some detail:
+I've checked in with around 6 other students, and Dieter explained his approach to this problem to me in some detail.
 
-The potential function $\Phi(h)$, where h is the data structure at a particular state, tells us how much precharged time is available to pay for expensive operations down the road. Intuitively, I think of the potential function as the computer science equivalent of riding a bicycle up a hilly road, where reaching the top of a series of small hills makes it "free" to ride all the way down one large one.
+The potential function $\Phi(DS)$, where h is the data structure at a particular state, tells us how much precharged time is available to pay for expensive operations down the road. Intuitively, I think of the potential function as the computer science equivalent of riding a bicycle up a hilly road, where reaching the top of a series of small hills affects riding down other hills later.
 
-- $k$ is the 
+In the case of this problem, at first I chose the following potential function:
 
-TODO: phi is just the number of items in the list and do it for the last one
+$$\Phi(DS)=\text{length of "in" stack}$$
+
+Since the length of the "in" stack will always be $\geq0$, but I'm confused about this approach's correctness because when the second stack contains some data, the structure as a whole is not empty but $\Phi(DS)\neq0$, which I believe violates the potential function rules.
+
+I moved on to the following potential function:
+
+$$\Phi(DS)=I-O\text{, for }I-O\geq0$$
+
+$$\Phi(DS)=0\text{, for }I-O<0$$
+
+$$I=\text{length of input stack};O=\text{length of output stack}$$
+
+### This meets the following conditions:
+- When the data structure is empty, $\Phi(DS)=0$
+- $\Phi(DS)\geq0$
+
+### Enqueue
+Enqueue needs to perform 2 appends, one for the value and one for the minimum tracker.
+
+$$\text{Amortized Enqueue}=2+\Phi(DS_k)-\Phi(DS_{k-1})=3\Rightarrow O(1)$$
+
+### Dequeue
+Dequeue needs to perform an expensive operation every once in a while to flip the "in" stack, but the piecewise function ends up providing enough operations that the amortized time will still be $O(1)$.
+
+$$\text{Amortized Dequeue}=1+\Phi(DS_k)-\Phi(DS_{k-1})=1+1=2\Rightarrow O(1)$$
+
+### Find_Min
+This operation is necessarily O(1) because it results in no change in the data structure.
+
+$$\text{Amortized find\_min}=1+\Phi(DS_k)-\Phi(DS_{k-1})=1+0=1\Rightarrow O(1)$$
 
 # Questions to Follow Up On/Think More About
 - In functions that are of big-O time $O(n*log(n))$, what base is the logarithm? Does it matter?
-- How do we choose a potential function? Where can I find the table that Alice showed in class?
+- How do we choose a potential function? ~~Where can I find the table that Alice showed in class?~~
+    - [https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)](https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms))
 - How would I go about finding a useful potential function for the first exercise? What about the second one?
 - I'm **really confused about the potential method**.
