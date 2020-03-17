@@ -15,11 +15,29 @@ def search_cross_subarray(happiness_scores, start_index, mid_index, end_index):
 
     # set our initial maxes to infinitely negative floats
     # this allows the algorithm to work with negative numbers
-    left_max  = -float("inf")
-    right_max = -float("inf")
+    left_max    = -float("inf")
+    right_max   = -float("inf")
+    current_sum = 0
 
-    for i in range(mid_index, start_index, -1):
-        print(i)
+    # go from middle to start
+    for i in range(mid_index, start_index-1, -1):
+        current_sum += happiness_scores[i]
+        if current_sum > left_max:
+            start_index = i
+            left_max = current_sum
+
+    # go from middle to end
+    for i in range(mid_index+1, end_index):
+        current_sum += happiness_scores[i]
+        if current_sum > right_max:
+            end_index = i
+            right_max = current_sum
+    
+    # yay, a tuple!
+    return (start_index, end_index, left_max + right_max)
+
+
+   
 
 def choose_meal(happiness_scores, start_index=0, end_index=None):
     """ Looks in a list for the greatest consecutive sum and returns its indices
@@ -31,8 +49,11 @@ def choose_meal(happiness_scores, start_index=0, end_index=None):
     # set end index if not set
     end_index = end_index if end_index else len(happiness_scores)-1
 
+    print(start_index, end_index)
+
     # return list at base case
-    if start_index == end_index: return (start_index, end_index, happiness_scores[start_index])
+    if start_index == end_index:
+        return (start_index, end_index, happiness_scores[start_index])
 
     # find the middle of the list
     middle_index = int((start_index + end_index) / 2)
