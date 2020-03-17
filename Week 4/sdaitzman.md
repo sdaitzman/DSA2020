@@ -34,4 +34,15 @@ $$2*O(\frac{n}{2})=O(n);\quad n=\text{number of elements at this layer}$$
  # Exercise 2: Academitis
  > The students at Olin are suffering a new version of the freshman plaque called academitis. Fortunately, this unique bug can only be passed between students during class time and there’s a known cure – leweekend. Suppose that you want to distribute the cure to all potentially affected students and you’ve identified patient zero that started the outbreak. Design an your algorithm to find this list. Be sure to give a clear description and mention any supporting data structures you use. Then, in a few sentences, argue the correctness of the output. You do not have to analyze the runtime, and you may assume that you can find a list of a student’s classmates.
 
-Assuming we have a list of 
+Assuming we have a single affected student and a list of their classmates, and we are trying to find all classmates who are in a chain of classes where one student attended a class with patient zero, and another may have attended a class with that first student (and so on), we can use queues in a maze-search-like implementation to search the lists.
+
+Essentially, we treat each student as a location node in the maze problem we previously considered. Each $StudentNode$ must have a property $Checked$. We will create a queue $Quarantine
+
+This is a depth-first search algorithm, which does not ensure that the $Quarantine$ queue is ordered with the students most likely to be infected (with the shortest chain of classroom contacts from patient zero) towards its start. If trying to prioritize students, it would make sense to set a $Distance$ key on each student to a value that represents the current depth in the tree. Then, the list could be sorted to prioritize who to reach out to or quarantine first.
+
+# Exercise 3: Implement Happiness Maximization Algorithm
+See `./sdaitzman.py` for my implementation.
+
+# Exercise 4: Average Results
+
+# Exercise 5: Picky Eating
