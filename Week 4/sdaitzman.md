@@ -31,7 +31,8 @@ $$2*O(\frac{n}{2})=O(n);\quad n=\text{number of elements at this layer}$$
  
  $$log_2(n)*O(n)=O(n*log(n))$$
  
- # Exercise 2: Academitis
+# Exercise 2: Academitis
+ 
  > The students at Olin are suffering a new version of the freshman plaque called academitis. Fortunately, this unique bug can only be passed between students during class time and there’s a known cure – leweekend. Suppose that you want to distribute the cure to all potentially affected students and you’ve identified patient zero that started the outbreak. Design an your algorithm to find this list. Be sure to give a clear description and mention any supporting data structures you use. Then, in a few sentences, argue the correctness of the output. You do not have to analyze the runtime, and you may assume that you can find a list of a student’s classmates.
 
 Assuming we have a single affected student and a list of their classmates, and we are trying to find all classmates who are in a chain of classes where one student attended a class with patient zero, and another may have attended a class with that first student (and so on), we can use queues in a maze-search-like implementation to search the lists.
