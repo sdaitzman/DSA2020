@@ -44,6 +44,13 @@ This is a depth-first search algorithm, which does not ensure that the $Quaranti
 # Exercise 3: Implement Happiness Maximization Algorithm
 See `./sdaitzman.py` for my implementation.
 
-# Exercise 4: Average Results
+# Exercise 4: Average Results (uniform distribution)
+When choosing 100 random integer preference lists within bounds $[-10,10]$, each of length 100, on one run I found a mean maximum subsequence length of 43.83 with a mean maximum value of 53.1. This mean max subsequence length makes sense, since each value found has a decently high chance of terminating the subsequence by being more negative. The $[-10,10]$ range is probably pretty unrealistic, so the normal distribution with some strong preferences may be more representative of meal preferences.
 
-# Exercise 5: Picky Eating
+# Exercise 5: Picky Eating (non-uniform distribution)
+When choosing a non-uniform distribution that reflects some stronger preferences:
+
+$$p=0.7\rightarrow\{\mu=6,\sigma=1\}$$
+$$p=0.3\rightarrow\{\mu=-7,\sigma=0.5\}$$
+
+In one test, I found a mean maximum subsequence length of 90.69 with a mean maximum value of 217.98. This makes sense, since a smaller fraction of the values have any chance of causing the algorithm to reject a section of the list as too negative. Both standard distributions will tend to keep their respective values fairly close to the center of their distributions.

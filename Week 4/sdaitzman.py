@@ -54,9 +54,6 @@ def choose_meal(happiness_scores, start_index=0, end_index=None):
 
     # return list at base case
     if start_index == end_index:
-        if happiness_scores[start_index] < 0:
-            # returning an empty list breaks things here, so I return -∞
-            return (start_index, end_index, -float("inf"))
         return (start_index, end_index, happiness_scores[start_index])
 
     # find the middle of the list
@@ -80,17 +77,69 @@ def choose_meal(happiness_scores, start_index=0, end_index=None):
         # print('middle', middle_sum)
         return (middle_start_index, middle_end_index, middle_sum)
 
-options = ["french fries", "brussel sprouts", "chicken sandwiches", "tomato soup", "fruit salad"]
+def test_choose_meals():
+    """ Test the choose_meals function on sample data """
 
-scores = [1, 3, 4, -100, 25]
-print(scores, " → ", choose_meal(scores))
+    # Basic right-hand situation
+    scores = [1, 3, 4, -100, 25]
+    assert choose_meal(scores) == (4, 4, 25)
 
-scores = [25, 1, -8, 3, 4]
-print(scores, " → ", choose_meal(scores))
+    # A case where the middle should exclude the right
+    scores = [25, 1, -8, 3, 4]
+    assert choose_meal(scores) == (0, 1, 26)
 
-scores = [1, 3, 4, 25]
-print(scores, " → ", choose_meal(scores))
+    # A case where all values should be included
+    scores = [1, 3, 4, 25]
+    assert choose_meal(scores) == (0, 3, 33)
 
-scores = [-1, -3, -4, 25]
-print(scores, " → ", choose_meal(scores))
+    # A case where only one value is positive
+    scores = [-1, -3, -4, 25]
+    assert choose_meal(scores) == (3, 3, 25)
 
+    # Some cases where no values are positive
+    assert choose_meal([-1, -3, -4, -25]) == (0, 0, -1)
+    assert choose_meal([-3, -1, -4, -25]) == (1, 1, -1)
+
+def random_uniform(samples, n, bounds):
+
+    # adds one to upper bound because randint is exclusive there
+    lists = np.random.randint(bounds[0], bounds[1] + 1, size=[samples,n])
+    lengths = []
+    max_values = []
+
+    for i in lists:
+        meal = choose_meal(i)
+        lengths.append(meal[1] - meal[0])
+        max_values.append(meal[2])
+
+    print('UNIFORM:')
+    print('Mean length of interval: ', np.mean(lengths))
+    print('Mean max value found across interval: ', np.mean(max_values))
+
+def random_nonuniform():
+
+    thing = 0
+
+    # adds one to upper bound because randint is exclusive there
+    lists = np.random.normal(loc=6, scale=1, size=[100,100])
+    for i in range(len(lists)):
+        for j in range(len(lists[i])):
+            if np.random.rand() > 0.7:
+                lists[i][j] = np.random.normal(loc=-7, scale=0.5)
+
+
+    lengths = []
+    max_values = []
+
+    for i in lists:
+        meal = choose_meal(i)
+        lengths.append(meal[1] - meal[0])
+        max_values.append(meal[2])
+
+    print('NONUNIFORM:')
+    print('Mean length of interval: ', np.mean(lengths))
+    print('Mean max value found across interval: ', np.mean(max_values))
+
+
+random_uniform(100,100, (-10, 10));print()
+random_nonuniform()
