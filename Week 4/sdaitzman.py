@@ -10,31 +10,34 @@ import numpy as np
 
 def search_cross_subarray(happiness_scores, start_index, mid_index, end_index):
     """ Finds the greatest consecutive list across the middle and returns it
-
+    happiness_scores: list of happiness scores for all items
+    start_index: start bound of range we are searching for a middle-crossing max
+    mid_index: middle division of range
+    end_index: end division of range we're searching
     """
 
-    # set our initial maxes to infinitely negative floats
+    # set our initial max to -∞
     # this allows the algorithm to work with negative numbers
-    left_max    = -float("inf")
-    right_max   = -float("inf")
+    curr_max    = -float("inf")
     current_sum = 0
+    end_index  += 1
 
-    # go from middle to start
+    # iterate from middle to start
     for i in range(mid_index, start_index-1, -1):
         current_sum += happiness_scores[i]
-        if current_sum > left_max:
+        if current_sum > curr_max:
             start_index = i
-            left_max = current_sum
+            curr_max = current_sum
 
-    # go from middle to end
+    # iterate from middle to end
     for i in range(mid_index+1, end_index):
         current_sum += happiness_scores[i]
-        if current_sum > right_max:
+        if current_sum > curr_max:
             end_index = i
-            right_max = current_sum
+            curr_max = current_sum
     
     # yay, a tuple!
-    return (start_index, end_index, left_max + right_max)
+    return (start_index, end_index, curr_max)
 
 
    
@@ -42,17 +45,19 @@ def search_cross_subarray(happiness_scores, start_index, mid_index, end_index):
 def choose_meal(happiness_scores, start_index=0, end_index=None):
     """ Looks in a list for the greatest consecutive sum and returns its indices
     happiness_scores: list of happiness scores
-    start_index: start index in overall list
-    end_index:     end index in overall list
+    start_index: start index in overall list (default at top of tree = 0)
+    end_index: end index in overall list (default at top of tree = list length)
     """
 
-    # print(start_index, end_index)
-
     # set end index if not set
-    if end_index == None: end_index = len(happiness_scores)-1
+    if end_index == None: end_index = len(happiness_scores) - 1
 
     # return list at base case
-    if start_index == end_index: return (start_index, end_index, happiness_scores[start_index])
+    if start_index == end_index:
+        if happiness_scores[start_index] < 0:
+            # returning an empty list breaks things here, so I return -∞
+            return (start_index, end_index, -float("inf"))
+        return (start_index, end_index, happiness_scores[start_index])
 
     # find the middle of the list
     middle_index = int((start_index + end_index) / 2)
@@ -78,12 +83,14 @@ def choose_meal(happiness_scores, start_index=0, end_index=None):
 options = ["french fries", "brussel sprouts", "chicken sandwiches", "tomato soup", "fruit salad"]
 
 scores = [1, 3, 4, -100, 25]
-print(choose_meal(scores))
-
+print(scores, " → ", choose_meal(scores))
 
 scores = [25, 1, -8, 3, 4]
-print(choose_meal(scores))
+print(scores, " → ", choose_meal(scores))
 
 scores = [1, 3, 4, 25]
-print(choose_meal(scores))
+print(scores, " → ", choose_meal(scores))
+
+scores = [-1, -3, -4, 25]
+print(scores, " → ", choose_meal(scores))
 
