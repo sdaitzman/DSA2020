@@ -46,7 +46,7 @@ def choose_meal(happiness_scores, start_index=0, end_index=None):
     end_index:     end index in overall list
     """
 
-    print(start_index, end_index)
+    # print(start_index, end_index)
 
     # set end index if not set
     if end_index == None: end_index = len(happiness_scores)-1
@@ -66,23 +66,24 @@ def choose_meal(happiness_scores, start_index=0, end_index=None):
 
     # return greatest value
     if  left_sum  >= right_sum and left_sum >= middle_sum:
-        print('left')
+        # print('left', left_sum)
         return (left_start_index , left_end_index , left_sum ) 
     if  right_sum >= left_sum and right_sum >= middle_sum:
-        print('right')
+        # print('right', right_sum)
         return (right_start_index, right_end_index, right_sum)
     if middle_sum >= left_sum and middle_sum >= right_sum:
-        print('middle')
+        # print('middle', middle_sum)
         return (middle_start_index, middle_end_index, middle_sum)
 
 options = ["french fries", "brussel sprouts", "chicken sandwiches", "tomato soup", "fruit salad"]
 
 scores = [1, 3, 4, -100, 25]
-# print(choose_meal(scores))
-
-scores = [1, 3, 4, 25]
 print(choose_meal(scores))
 
 
 scores = [25, 1, -8, 3, 4]
-# print(choose_meal(scores))
+print(choose_meal(scores))
+
+scores = [1, 3, 4, 25]
+print(choose_meal(scores))
+
