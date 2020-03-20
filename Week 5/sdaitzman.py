@@ -2,6 +2,7 @@
 import pytest
 from hypothesis import given
 import hypothesis.strategies as st
+import copy
 
 class Heap:
     def heapify(self, position):
@@ -76,7 +77,7 @@ class Heap:
 
     def delete_min(self):
         ''' Remove the min (root) from heap. '''
-        print("length", self.length, "heap", self.heap)
+        # print("length", self.length, "heap", self.heap)
         if self.length > 1:
             ret = self.heap[0]
             self.heap[0] = self.heap.pop()
@@ -96,8 +97,104 @@ class Heap:
 
     def sorted_list(self):
         ''' Return a sorted list of all heap elements. '''
+        ret = []
 
+        # deep copy the list so this is nondestructive
+        c = copy.deepcopy(self)
+        
+        # repeatedly delete the new min and append it to our list
+        # this operation is O(log n) and takes place O(n) times
+        # so this is O(n log n)!
+        for i in range(c.length): ret.append(c.delete_min())
+        return ret
+
+# ---------- TESTS ----------
+
+@given(st.lists(st.integers()))
+def test_heap_len(l):
+    ''' A sample test that checks heap length works as expected '''
+    h = Heap(l)
+    assert len(l) == h.get_length()
+    assert len(l) == len(h.heap)
+
+@given(st.lists(st.integers()))
+def test_heap_insert_delete(l):
+    ''' A sample test that checks heap length works as expected '''
+    h = Heap([])
+
+    # test that the heap begins empty with length 0
+    assert h.heap == []
+    assert h.get_length() == 0
+
+    heap_size = 0
+    for i in range(len(l)):
+        h.insert(l[i])
+        heap_size += 1
+
+        # check that the heap size grows appropriately
+        assert heap_size == h.get_length()
+
+        # check that the value we added is in the heap
+        assert l[i] in h.heap
+
+        # check that every value before the one we added is also in the heap
+        for j in range(i): assert l[j] in h.heap
     
+    # test that the heap length remains accurate after these inserts
+    assert len(l) == h.get_length()
+    assert len(l) == len(h.heap)
+
+    for i in range(len(l)):
+        # check that the minimum in the heap was the minimum in the list at each 
+        assert h.delete_min() == min(l)
+
+        # strip current minimum of test list
+        l.remove(min(l))
+    
+    # check that deletions on emptied heap return a None
+    for i in range(3): assert h.delete_min() == None
+
+
+@given(st.lists(st.integers()))
+def test_heap_init_delete(l):
+    ''' A sample test that checks heap length works as expected '''
+    h = Heap(l)
+
+    # check that the value we added is in the heap
+    for i in range(len(l)): assert l[i] in h.heap
+
+    # test that the heap length is accurate
+    assert len(l) == h.get_length()
+    assert len(l) == len(h.heap)
+
+    for i in range(len(l)):
+        # check that the minimum in the heap was the minimum in the list at each 
+        delete_return = h.delete_min()
+        assert delete_return == min(l)
+        # TODO: fix this IndexError
+
+        # strip current minimum of test list
+        l.remove(min(l))
+    
+    # # check that deletions on emptied heap return a None
+    # for i in range(3): assert h.delete_min() == None
+
+test_heap_init_delete()
+
+
+# a_heap = Heap(oglist=[0])
+# print(a_heap.heap)
+# print(a_heap.length)
+# print(len(a_heap.heap))
+# print(a_heap.get_length())
+
+
+# a_heap = Heap(oglist=[])
+# print(a_heap.heap)
+# print(a_heap.length)
+# print(a_heap.get_length())
+
+
 # a_heap = Heap(oglist=[3, 2, 8, 1, 4, 6, 11])
 # print(a_heap.heap)
 # print(a_heap.get_length())
@@ -106,13 +203,17 @@ class Heap:
 # print(a_heap.insert(-10))
 # print(a_heap.insert(1.5))
 
-another_heap = Heap(oglist=[3, 2, 8, 1, 4, 6, 11])
-print(another_heap.delete_min())
-print(another_heap.delete_min())
-print(another_heap.delete_min())
-print(another_heap.delete_min())
-print(another_heap.delete_min())
-print(another_heap.delete_min())
-print(another_heap.delete_min())
-print(another_heap.delete_min())
-print(another_heap.delete_min())
+# another_heap = Heap(oglist=[3, 2, 8, 1, 4, 6, 11])
+# print(another_heap.delete_min())
+# print(another_heap.delete_min())
+# print(another_heap.delete_min())
+# print(another_heap.delete_min())
+# print(another_heap.delete_min())
+# print(another_heap.delete_min())
+# print(another_heap.delete_min())
+# print(another_heap.delete_min())
+# print(another_heap.delete_min())
+
+# another_heap = Heap(oglist=[3, 2, 8, 1, 4, 6, 11])
+# print(another_heap.heap)
+# print(another_heap.sorted_list())
