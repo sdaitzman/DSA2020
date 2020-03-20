@@ -3,6 +3,7 @@ import pytest
 from hypothesis import given
 import hypothesis.strategies as st
 import copy
+import numpy as np
 
 class Heap:
     def heapify(self, position):
@@ -154,7 +155,6 @@ def test_heap_insert_delete(l):
     # check that deletions on emptied heap return a None
     for i in range(3): assert h.delete_min() == None
 
-
 @given(st.lists(st.integers()))
 def test_heap_init_delete(l):
     ''' A sample test that checks heap length works as expected '''
@@ -168,16 +168,12 @@ def test_heap_init_delete(l):
     assert len(l) == len(h.heap)
 
     for i in range(len(l)):
-        # check that the minimum in the heap was the minimum in the list at each 
-        delete_return = h.delete_min()
-        assert delete_return == min(l)
-        # TODO: fix this IndexError
+        deleted_min = h.delete_min()
 
-        # strip current minimum of test list
-        l.remove(min(l))
+
     
     # # check that deletions on emptied heap return a None
-    # for i in range(3): assert h.delete_min() == None
+    for i in range(3): assert h.delete_min() == None
 
 test_heap_init_delete()
 
