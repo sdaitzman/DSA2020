@@ -37,11 +37,13 @@ class Heap:
             # run heapify again on the smaller value
             self.heapify(smallest)
 
-    def __init__(self, oglist=[]):
+    def __init__(self, oglist=[], create_deepcopy=True):
         ''' Initialize heap from a (possibly empty) list. '''
 
-        self.heap = oglist if len(oglist) > 0 else []
-        self.length = len(oglist)
+        # initialize starter list, deepcopying/creating if needed
+        starter_list = copy.deepcopy(oglist) if create_deepcopy else oglist
+        self.heap = starter_list if len(starter_list) > 0 else []
+        self.length = len(starter_list)
 
         # repeatedly fix heap structure from end to start
         for i in range(self.length-1, -1, -1):
@@ -120,7 +122,7 @@ def test_heap_len(l):
 
 @given(st.lists(st.integers()))
 def test_heap_insert_delete(l):
-    ''' A sample test that checks heap length works as expected '''
+    ''' A sample test that checks heap insertion and deletion work as expected '''
     h = Heap([])
 
     # test that the heap begins empty with length 0
@@ -151,13 +153,16 @@ def test_heap_insert_delete(l):
 
         # strip current minimum of test list
         l.remove(min(l))
+
+        # check that the list lengths match
+        assert len(l) == h.get_length()
     
     # check that deletions on emptied heap return a None
     for i in range(3): assert h.delete_min() == None
 
 @given(st.lists(st.integers()))
 def test_heap_init_delete(l):
-    ''' A sample test that checks heap length works as expected '''
+    ''' A sample test that checks heap initialization and deletion work as expected '''
     h = Heap(l)
 
     # check that the value we added is in the heap
@@ -168,14 +173,30 @@ def test_heap_init_delete(l):
     assert len(l) == len(h.heap)
 
     for i in range(len(l)):
-        deleted_min = h.delete_min()
+        # check that the minimum in the heap was the minimum in the list at each step
+        assert h.delete_min() == min(l)
 
+        # strip current minimum from test list
+        l.remove(min(l))
 
-    
-    # # check that deletions on emptied heap return a None
+        # check that the list lengths match
+        assert len(l) == h.get_length()
+
+    # check that deletions on emptied heap return a None
     for i in range(3): assert h.delete_min() == None
 
-test_heap_init_delete()
+@given(st.lists(st.integers()))
+def test_heap_sorted_list(l):
+    ''' A sample test that checks heap list sorting works as expected '''
+    h = Heap(l)
+
+    # check that list is sorted
+    assert h.sorted_list() == sorted(l)
+
+    # check that the heap is still the same as before
+    assert Heap(l).heap == h.heap
+
+# test_heap_sorted_list()
 
 
 # a_heap = Heap(oglist=[0])
