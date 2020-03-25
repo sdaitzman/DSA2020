@@ -69,13 +69,27 @@ Thus, we show that for a list of any length, mergesort will maintain sortedness 
 ## a) Union-Find with Doubly Linked Lists
 > Explain how to construct a Union-Find DS using doubly linked lists with the following runtimes:
 
+We can use a collection of doubly-linked lists to implement the union-find abstract data type. We'll track a list of all of the items in the data structure, and each node will be similar to that of a traditional DLL, but each node will contain an additional property that tracks the head (first element) of the set that each node is part of. To support our operations, we will amortize recording the length of each set across every operation on the DLL-like class we use. In other words, as each set grows or shrinks, we'll track its length so that fetching its length later can be $O(1)$.
+
 - `make_set`: $O(1)$.
+To create a new set we create a single DLL node, with a `set` property equal to the head for this set. This is an $O(1)$ operation because we are only operating on/creating fixed constant data.
+
 - `union(A,B)`: $O(min(nA,nB))$, where nA is the number of elements in A and nB is the number of elements in B.
+To union one set with another, we check the length of the two sets. We link the last element of the first set with the first element of the second (shorter) set, then we iterate through every item that was formerly part of the shorter set and adjust its `set` property to link to the head node for the first (longer) set. This will perform in $O(min(nA,nB))$ because we perform a few brief constant-time operations at the beginning, and then only perform one constant-time assignment operation for each item in the shorter set we are calling `union` on.
+
 - `find(i)`: $O(1)$.
+To implement `find` we simply return the head node linked to by the `set` property on the node we are interested in. This is $O(1)$ because looking up one property is only one operation that takes constant time.
+
 
 ## b) Union-Find with Tree Structure
 > Explain how to construct a Union-Find DS using a tree of elements with the following runtimes:
+Instead of linking our nodes linearly, we can link them in a tree-like structure to keep track of the union-find datastructure.
 
-- `make_set`: $O(1).$
-- `union(A,B)`: $O(1).$
-- `find(i)`: $O(log(n)).$
+- `make_set`: $O(1)$.
+To run `make_set` with this form of union-find is very similar to the previous approach. We create a node, and link it to nothing to begin with.
+
+- `union(A,B)`: $O(1)$.
+Union performs better in this implementation, with $O(1)$ time complexity, because to link in a new set, we simply add one set's head element as a child of the other set's head element. This can be chained infinitely. Performing this linking can be done in $O(1)$ because we are only doing two constant-time operations (linking in both directions to keep track of parent/child relations).
+
+- `find(i)`: $O(log(n))$.
+To find the head of the set, we climb up the parent tree until we reach the top-level head node, which will have no parent set. Amortized across the tree, this will perform in $O(log(n))$ time complexity because it will need to climb $log(n)$ layers up the tree which dominates the brief constant time needed to implement the operation.
