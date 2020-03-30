@@ -1,4 +1,4 @@
-# Homework 6
+# Homework 7
 *Sam Daitzman // DSA Spring 2020*
 
 ---------------------------------
@@ -46,3 +46,8 @@ Find my code attached in `./sdaitzman.py`.
 
 ## Exercise 3: Random Binomial Graph
 Find my code attached in `./sdaitzman.py`.
+
+The result shown in the image attached (Figure 1) makes sense. It shows a decay in the minimum average probability required to create a fully interconnected random binomial graph shrinking as the number of nodes grows. The decay looks like it could be exponential. This makes sense because, in any graph like this, the number of total intersections between any nodes is $n^2$ where $n$ is the number of nodes. The number of unique intersections drastically increases, so it makes sense that when sampling uniform random numbers to make these decisions, we're more likely to link a node into the main component when each node has more chances to be linked in. In other words, we're more likely to pick a random value lower than any bound among a greater number of samples.
+
+![Random binomial graph behavior plot showing concave-up decrease in p (the mean minimum probability needed to create a single-component graph) as n (the number of nodes in the random binomial graph) grows.](./random_binomial_graph.png)
+
