@@ -63,7 +63,7 @@ We want to compare some valid string of letters s1 to a wildcards string s2, whi
 2. If the characters in both string at our current location match, we continue and look at other values, so our value function will be $W_{i,j}(m, n)=W_{i,j}(m-1, n-1)$
 3. If these situations are not satisfied, our value function is `false`.
 
-Throughout my implementation in all subproblems, wherever we see a potential match, we know that it must either correspond to a matching value or a wildcard match. In the case that it corresponds to a wildcard match, we know that we'll continue onwards as expected because we'll continue iterating having only inserted truthy values. In the case where the strings do not match correctly and cannot be substituted by a wildcard, we'll simply set our value function to false, and our eventual return will be false. Thus, all cases are satisfied.
+Throughout my implementation in all subproblems, wherever we see a potential match, we know that it must either correspond to a matching value or a wildcard match. In the case that it corresponds to a wildcard match, we know that we'll continue onwards as expected because we'll continue iterating having only found truthy values. In the case where the strings do not match correctly and cannot be substituted by a wildcard, we'll simply set our value function to false, and our eventual return will be false (in implementation, I actually return False immediately). Thus, all cases are satisfied.
 
 
 ### Exercise 2B: Runtime
@@ -76,5 +76,6 @@ As before, we calculate a maximum of $m*n$ cells, and computing each cell consis
 
 See `./sdaitzman.py`.
 
-## Questions
+## Questions/Notes
 - I noticed in many reference algorithms similar to the dynamic programming solutions I implemented, the functions include some subscripts (e.g. $W_i(m, n)$). Does this refer to the row/column? Does it refer to the iteration? Is it just a way of indicating that it varies across values? I wrote the equations the way that made sense to me but I'm wondering if there's a convention here to follow.
+- Note to self: I feel very fuzzy about implementing dynamic programming algorithms and should go back over those lecture notes. I leaned pretty heavily on similar reference implementations for this homework.
