@@ -12,27 +12,42 @@ def wildcard_string_compare(s1, s2):
     # begin at index 0 for implementation clarity
     i = 0;
     j = 0;
+
     starIndex = -1;
     iIndex = -1;
 
 
+    # while not at end of text
     while(i < m):
+
+        # if not at end and characters match, move to next
         if(j < n and s2[j] == s1[i]):
             i += 1
             j += 1
+
+        # if not at end and hit wildcard, set pointer to current wildcard and
+        # set location in text to current index and iterate through wildcard
         elif(j < n and s2[j] == '*'):
             starIndex = j
             iIndex = i
             j = j + 1
+
+        # if none of these checks have happened and we have some wildcard so far
+        # iterate position past wildcard in both strings and continue to next
+        # letter in text string we're checking
         elif(starIndex != -1):
             j = starIndex + 1
             i = iIndex + 1
             iIndex += 1
+
+        # if none of these cases are true, under the principle of optimality
+        # we must return False, since the strings cannot match
         else: return False
     
-    while(j < n and s2[j] == '*'):
-        j += 1
+    # count up remaining length not covered or accounted for by wildcard
+    while(j < n and s2[j] == '*'): j += 1
     
+    # return truthy if all letters were accounted for in our DP iterator
     return j == n
 
 
