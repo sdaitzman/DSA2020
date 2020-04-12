@@ -9,23 +9,32 @@ def wildcard_string_compare(s1, s2):
     m = len(s1) # the text we're checking e.g. hello
     n = len(s2) # the wildcard pattern    e.g. h*llo
 
+    # begin at index 0 for implementation clarity
+    i = 0;
+    j = 0;
+    starIndex = -1;
+    iIndex = -1;
 
-    # https://stackoverflow.com/questions/6667201/how-to-define-a-two-dimensional-array-in-python
-    # extra row and column for base case/final answer fitting
-    W = [[False for i in range(n + 1)] for j in range(m + 1)]
 
-    # a base case here is that for no text or wildcard, things match
-    W[0][0] = True
+    while(i < m):
+        if(j < n and s2[j] == s1[i]):
+            i += 1
+            j += 1
+        elif(j < n and s2[j] == '*'):
+            starIndex = j
+            iIndex = i
+            j = j + 1
+        elif(starIndex != -1):
+            j = starIndex + 1
+            i = iIndex + 1
+            iIndex += 1
+        else: return False
+    
+    while(j < n and s2[j] == '*'):
+        j += 1
+    
+    return j == n
 
-    # iterate through loop
-    for i in range(1, m + 1):
-        for j in range(1, n + 1):
-            # if we're at a matching wildcard or if things are identical
-            if(s2[j - 1] == "*" or s1[i-1] == s2[j-1]):
-                W[i][j] = W[i-1][j-1]
-            else:
-                W[i][j] = False
-    return W[m][n]
 
 s1 = 'hi'
 s2 = 'h*'
@@ -33,5 +42,13 @@ print(wildcard_string_compare(s1, s2))
 
 
 s1 = 'hello'
+s2 = 'h*llo'
+print(wildcard_string_compare(s1, s2))
+
+s1 = 'heeeeello'
+s2 = 'h*llo'
+print(wildcard_string_compare(s1, s2))
+
+s1 = 'foo'
 s2 = 'h*llo'
 print(wildcard_string_compare(s1, s2))
