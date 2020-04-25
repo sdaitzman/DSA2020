@@ -3,6 +3,7 @@ import numpy as np
 import time
 from tabulate import tabulate
 import sys
+import copy
 
 def read_tsp(filename):
     ''' Reads a TSPLIB instance given by filename and returns the corresponding
@@ -67,8 +68,107 @@ def nearest_neighbor(C):
         d += best_dist
     return p,d
 
+
+
+
+def swap_2opt(p, i, k):
+    '''
+    Perform a two-opt swap of nodes in path p around indices i and k
+    '''
+    n = []
+    for j in range(k,i-1,-1): n.append(p[j])   # insert i thru k in reverse
+    for j in range(i): n.insert(j,p[j])        # insert 0 thru i
+    for j in range(k+1,len(p)): n.append(p[j]) # insert k thru end
+    return n
+
+def path_length(C, p):
+    '''
+    Returns the length of a path given its corresponding distance matrix.
+
+    C: distance matrix
+    p: a path through the nodes
+    '''
+    distances = [C[p[i]][p[i+1]] for i in range(len(p)-1)] # get all distances
+    return sum(distances) # return their sum
+
+def optimize_path_2opt(C, p, lim=None, max_iter=None):
+    '''
+    Optimize an existing traveling salesman path through a cost matrix using the
+    two-opt local search heuristic.
+
+    C: distance matrix
+    p: a path through the matrix
+    lim: neighborhood distance to explore
+    max_iter: max iterations to pursue before terminating and returning best so far
+    '''
+
+    # don't limit local neighborhood or iterations if no limits are set
+    L = len(p)
+    if not lim: lim = L
+    if not max_iter: max_iter = float('inf')
+
+    # initialize our value tracking variables
+    route = copy.deepcopy(p) # deepcopy route so function is idempotent
+    n = 0
+    improved = True
+
+    # continue until improvement is detected or we hit max_iter
+    while improved and n < max_iter:
+        improved = False
+        n += 1
+
+        # set current target
+        best_dist = path_length(C, route)
+        for i in range(L): # for all nodes
+           
+            # check all neighbors within constraints
+            for k in range(i+1, min(i+1+lim, L)):
+                alt = swap_2opt(route, i, k)
+                dist = path_length(C, alt)
+
+                # if an alternative would be better...
+                if dist < best_dist:
+                    route = alt      # set best route so far
+                    best_dist = dist # set best distance so far
+                    improved = True  # flip improvement flag so we repeat again
+                    continue
+    return route
+
+C = read_tsp('TSP/gr48.tsp')
+p, dist = nearest_neighbor(C)
+print(path_length(C, p), '\t:\t', p)
+p2opt = optimize_path_2opt(C, p, None, None)
+print(path_length(C, p2opt), '\t:\t', p2opt)
+
+
+
+
+
+def two_opt(C, p, max_iterations=None):
+    '''
+    Attempts to improve an existing traveling salesman solution using the
+    two-opt heuristic, which tries swapping all pairs of edges around and takes
+    swaps that will reduce the local distance. This local search can reduce the
+    number of crossing paths to eliminate some travel distance.
+
+    C: an array of distances
+    p: an initial path to begin with
+    max_iterations: the maximum number of iterations to attempt. Pass no value,
+        None, or False to continue until no improvement is found.
+    '''
+    
+    if not max_iterations: max_iterations = float('inf')
+
+
+
+    ret = p
+
+
+
+    return ret
+
 C = read_tsp('TSP/gr24.tsp')
-print(nearest_neighbor(C))
+# print(nearest_neighbor(C))
 
 # ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 #   0  257  187   91  150   80  130  134  243  185  214   70  272  219  293   54  211  290  268  261  175  250  192  121
