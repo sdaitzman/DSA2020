@@ -10,9 +10,9 @@ I will implement a greedy heuristic-based traveling salesman algorithm using a n
 
 
 ## Exercise 2: Local Search Heuristic Traveling Salesman Algorithm
-> Implement a local search heuristic algorithm for the traveling salesman problem.We discussed a few options during class, but you are also free to invent your own.  Be sureto specify your algorithm below in a couple of sentences and explain why it is a local searchapproach.  To find an initial solution, your algorithm should run the greedy algorithm youimplemented above.
+> Implement a local search heuristic algorithm for the traveling salesman problem.We discussed a few options during class, but you are also free to invent your own.  Be sure to specify your algorithm below in a couple of sentences and explain why it is a local searchapproach.  To find an initial solution, your algorithm should run the greedy algorithm youimplemented above.
 
-To implement a local search heuristic-based traveling salesman algorithm, I will use a two-opt approach. The two-opt approach will take 
+To implement a local search heuristic-based traveling salesman algorithm, I will use a two-opt approach. The two-opt approach will take two edges somewhere in the graph, try swapping them as an experiment, and accept the swap if it improves the overall distance. It can be run to continue doing this until no improvement is found. For a pair of edges $(u_1, u_2)$ and $(v_1, v_2)$ it would try the alternate edges $(u1, v2)$ and $(v1, u2)$ which could reduce the total distance by eliminating an unnecessary crossing pathway.
 
 ## Exercise 3: Results
 > Compare the results of your algorithms by recording the runtimes and optimality gaps.  Depending on your chosen algorithm, you should also consider different starting con-ditions that may affect the performance.  Record your results in a table below.  Then, in afew sentences, comment what you observe.  Do the results match what you expected?
