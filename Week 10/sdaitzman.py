@@ -42,18 +42,14 @@ def nearest_neighbor(C):
 
     C: an array of distances
     '''
-    # print(tabulate(C))
-    # print(C.shape)
-
     # track visited state with a hashmap and path with a list
     c = [c for c in range(C.shape[0])]       # cities
     v = {node: (False if node > 0 else True) # visited state: True except first
         for node in range(C.shape[0])}       # for all cities
-    p = [0]                                  # pathway
+    p = [0]; d = 0                           # pathway and total distance
 
     # process all cities
     while len(p) < len(c):
-        
         current_city = p[-1]     # current city
         best_dist = float('inf') # best distance so far
         best_city = None         # best next city so far
@@ -61,16 +57,15 @@ def nearest_neighbor(C):
         # iterate thru all possible neighbors
         for i in range(C.shape[0]):
             dist = C[current_city][i]
-            # print(current_city, i, dist, { key:value for (key,value) in v.items() if value})
             if dist == 0: continue # skip past self
             if v[i]: continue      # skip past visited
             if dist < best_dist:
-                # print('New Minimum: ', best_dist, ' from ', current_city, ' to ', best_city)
                 best_dist = dist
                 best_city = i
         p.append(best_city)
         v[best_city] = True
-    return p
+        d += best_dist
+    return p,d
 
 C = read_tsp('TSP/gr24.tsp')
 print(nearest_neighbor(C))
