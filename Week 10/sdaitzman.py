@@ -52,19 +52,24 @@ def nearest_neighbor(C):
     p = [0]                                  # pathway
 
     # process all cities
-    for index in range(C.shape[0]-1):
-        dist = float('inf') # best distance so far
-        city = None         # best next city so far
+    while len(p) < len(c):
+        
+        current_city = p[-1]     # current city
+        best_dist = float('inf') # best distance so far
+        best_city = None         # best next city so far
 
         # iterate thru all possible neighbors
         for i in range(C.shape[0]):
-            if C[p[-1]-1][i] == 0: continue # skip past self
-            if v[i]: continue               # skip past visited
-            if C[len(p)-1][i] < dist:
-                dist = C[len(p)-1][i]
-                city = i
-        p.append(city)
-        v[city] = True
+            dist = C[current_city][i]
+            # print(current_city, i, dist, { key:value for (key,value) in v.items() if value})
+            if dist == 0: continue # skip past self
+            if v[i]: continue      # skip past visited
+            if dist < best_dist:
+                # print('New Minimum: ', best_dist, ' from ', current_city, ' to ', best_city)
+                best_dist = dist
+                best_city = i
+        p.append(best_city)
+        v[best_city] = True
     return p
 
 C = read_tsp('TSP/gr24.tsp')
