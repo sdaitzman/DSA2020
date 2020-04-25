@@ -7,7 +7,7 @@ import numpy as np
 
 class Heap:
     def heapify(self, position):
-        ''' Recursively converts a list to a heap in O(n)
+        ''' Recursively converts a list to a heap in O(log n)
         Based on NIST heapify: https://xlinux.nist.gov/dads/HTML/heapify.html
         Algoritm modified to start at bottom of tree
         '''
@@ -83,9 +83,9 @@ class Heap:
         # print("length", self.length, "heap", self.heap)
         if self.length > 1:
             ret = self.heap[0]
-            self.heap[0] = self.heap.pop()
+            self.heap[0] = self.heap.pop() # we'll end up with 2 min-heaps, then
             self.length -= 1
-            self.heapify(0)
+            self.heapify(0)                # merge them!
             return ret
         elif self.length == 1:
             self.length = 0
