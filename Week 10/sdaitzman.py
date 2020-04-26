@@ -198,7 +198,8 @@ print_gaps_and_timing(files, functions, optimal)
 
 
 
-# 
+# ----------- ONE SAMPLE  PROGRAM OUTPUT -----------
+#
 # File             Function                Result    gap   runtime (s)
 # -------------------------------------------------------------------------------------
 # TSP/gr17.tsp     nearest_neighbor        2187      102       0.18787384033203125
@@ -206,7 +207,7 @@ print_gaps_and_timing(files, functions, optimal)
 # TSP/gr17.tsp     nn_and_2opt             2088      3         4.56690788269043
 
 
-# File             Function                Result    gap   runtime (s)
+# File             Function                Ressult    gap   runtime (s)
 # -------------------------------------------------------------------------------------
 # TSP/gr21.tsp     nearest_neighbor        3333      626       0.263214111328125
 # TSP/gr21.tsp     just_2opt               6620      3913      8.002042770385742

@@ -27,6 +27,8 @@ In my implementation, I also support constraining the total number of iterations
 | **gr24** | **1272**          | 1553          | 3436             | 1278            | 281           | 2164             | 6               |
 | **gr48** | **5046**          | 6098          | 19837            | 5231            | 1052          | 14791            | 185             |
 
+Generally, these optimality results make a lot of sense. Obviously, none of my approaches quite reached an optimal solution, since I used quite a simple search heuristic and a naive nearest-neighbor implementation. I was surprised to see that two-opt actually performs *worse* than nearest-neighbor when not run with a sensical start path. Below, we also see that 2-opt is significantly less time-efficient (though this could be limited with the constraints on total iterations and local neighborhood size that my implementation allows for).
+
 ### Runtime
 
 
@@ -36,6 +38,8 @@ In my implementation, I also support constraining the total number of iterations
 | **gr21** | 0.2627372741699219  | 7.914066314697266  | 9.41014289855957   |
 | **gr24** | 0.40793418884277344 | 12.612104415893555 | 16.251325607299805 |
 | **gr48** | 1.2819766998291016  | 129.57310676574707 | 116.81389808654785 |
+
+The runtime here is very interesting. We see that nearest-neighbor is the most efficient by far for every single scenario tested. I was surprised to see how quickly adding more nodes increases the total runtime, although it makes sense since the total number of combinations increases exponentially.
 
 ## Questions/Things to Follow Up On
 - 2-opt vs. 3-opt vs. Lin-Kernigham heuristic. I read about these, but don't fully understand them all, and want to try programming (and/or visualizing) them later.
