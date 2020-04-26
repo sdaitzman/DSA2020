@@ -36,6 +36,16 @@ def read_tsp(filename):
 
     return C
 
+def path_length(C, p):
+    '''
+    Returns the length of a path given its corresponding distance matrix.
+
+    C: distance matrix
+    p: a path through the nodes
+    '''
+    distances = [C[p[i-1]][p[i]] for i in range(len(p))] # get all distances
+    return sum(distances) # return their sum
+
 def nearest_neighbor(C):
     '''
     Follows a nearest-neighbor heuristic to return a short-ish path through a
@@ -66,7 +76,7 @@ def nearest_neighbor(C):
         p.append(best_city)
         v[best_city] = True
         d += best_dist
-    return p,d
+    return p,path_length(C,p)
 
 
 
@@ -80,16 +90,6 @@ def swap_2opt(p, i, k):
     for j in range(i): n.insert(j,p[j])        # insert 0 thru i
     for j in range(k+1,len(p)): n.append(p[j]) # insert k thru end
     return n
-
-def path_length(C, p):
-    '''
-    Returns the length of a path given its corresponding distance matrix.
-
-    C: distance matrix
-    p: a path through the nodes
-    '''
-    distances = [C[p[i-1]][p[i]] for i in range(len(p))] # get all distances
-    return sum(distances) # return their sum
 
 def optimize_path_2opt(C, p, lim=None, max_iter=None):
     '''
@@ -139,12 +139,14 @@ def optimize_path_2opt(C, p, lim=None, max_iter=None):
 def just_2opt(C):
     ''' Runs 2-opt on a 0-end default start condition '''
     p = [i for i in range(len(C))]
-    return optimize_path_2opt(C, p)
+    path = optimize_path_2opt(C, p)
+    return path, path_length(C,p)
 
 def nn_and_2opt(C):
     ''' Runs nn and then follows up with 2-opt '''
     p, dist = nearest_neighbor(C)
-    return optimize_path_2opt(C, p)
+    path = optimize_path_2opt(C, p)
+    return path, path_length(C, path)
 
 # C = read_tsp('TSP/gr48.tsp')
 # print(path_length(C, nn_and_2opt(C)))
@@ -166,21 +168,15 @@ def runtime(f, C):
     f(C)
     return time.time() - started
 
-# print(optimality_gap(nearest_neighbor, C, 100))
-# print(runtime(nearest_neighbor, C))
-
-# print(optimality_gap(just_2opt, C, 100))
-# print(runtime(just_2opt, C))
-
 def print_gaps_and_timing(files, functions, optimal):
     for file in files:
-        print('File \t\t Function \t\t\t\t\t Result \t gap')
+        print('File \t\t Function \t\t Result    gap \t runtime (s)')
         print('-------------------------------------------------------------------------------------')
         for f in functions:
             C = read_tsp(file)
             t = runtime(f, C)
             result, gap = optimality_gap(f, C, optimal[file])
-            print(file, '\t', f, '\t', result, '\t', gap)
+            print(file, '\t', f.__name__.ljust(20), '\t', str(int(result)).ljust(7), ' ', str(int(gap)).ljust(7), ' ', t*1000)
         print('\n')
 
 
@@ -193,3 +189,39 @@ optimal = {
     "TSP/gr48.tsp": 5046
 }
 print_gaps_and_timing(files, functions, optimal)
+
+
+# C = read_tsp('TSP/gr17.tsp')
+# print(optimality_gap(nearest_neighbor, C, optimal['TSP/gr17.tsp']))
+
+# print(path_length(C, nearest_neighbor(C)[0]))
+
+
+
+# 
+# File             Function                Result    gap   runtime (s)
+# -------------------------------------------------------------------------------------
+# TSP/gr17.tsp     nearest_neighbor        2187      102       0.18787384033203125
+# TSP/gr17.tsp     just_2opt               4722      2637      4.355192184448242
+# TSP/gr17.tsp     nn_and_2opt             2088      3         4.56690788269043
+
+
+# File             Function                Result    gap   runtime (s)
+# -------------------------------------------------------------------------------------
+# TSP/gr21.tsp     nearest_neighbor        3333      626       0.263214111328125
+# TSP/gr21.tsp     just_2opt               6620      3913      8.002042770385742
+# TSP/gr21.tsp     nn_and_2opt             2816      109       8.314132690429688
+
+
+# File             Function                Result    gap   runtime (s)
+# -------------------------------------------------------------------------------------
+# TSP/gr24.tsp     nearest_neighbor        1553      281       0.34308433532714844
+# TSP/gr24.tsp     just_2opt               3436      2164      12.054920196533203
+# TSP/gr24.tsp     nn_and_2opt             1278      6         16.40796661376953
+
+
+# File             Function                Result    gap   runtime (s)
+# -------------------------------------------------------------------------------------
+# TSP/gr48.tsp     nearest_neighbor        6098      1052      1.2722015380859375
+# TSP/gr48.tsp     just_2opt               19837     14791     126.93405151367188
+# TSP/gr48.tsp     nn_and_2opt             5231      185       109.51972007751465
