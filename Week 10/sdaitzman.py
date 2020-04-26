@@ -88,7 +88,7 @@ def path_length(C, p):
     C: distance matrix
     p: a path through the nodes
     '''
-    distances = [C[p[i]][p[i+1]] for i in range(len(p)-1)] # get all distances
+    distances = [C[p[i-1]][p[i]] for i in range(len(p))] # get all distances
     return sum(distances) # return their sum
 
 def optimize_path_2opt(C, p, lim=None, max_iter=None):
