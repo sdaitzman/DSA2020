@@ -19,12 +19,23 @@ In my implementation, I also support constraining the total number of iterations
 ## Exercise 3: Results
 > Compare the results of your algorithms by recording the runtimes and optimality gaps.  Depending on your chosen algorithm, you should also consider different starting conditions that may affect the performance.  Record your results in a table below.  Then, in a few sentences, comment what you observe.  Do the results match what you expected?
 
-| Dataset  | $min_{ideal}$ | $t_{nn}\break$ (ms) | $t_{2OPT}$ (ms) | $min_{NN}$ | $min_{2OPT}$ | $gap_{NN}$ | $gap_{2OPT}$ |
-| -------- | ------------- | ------------- | --------------- | ---------- | ------------ | ---------- | ------------ |
-| **gr17** | **2085**      |               |                 |            |              |            |              |
-| **gr21** | **2707**      |               |                 |            |              |            |              |
-| **gr24** | **1272**      |               |                 |            |              |            |              |
-| **gr48** | **5046**      |               |                 |            |              |            |              |
+### Optimality
+| set      | $min\break$ ideal | $min\break$NN | $min\break$ 2opt | $min\break$both | $gap\break$NN | $gap\break$ 2opt | $gap\break$both |
+| -------- | ----------------- | ------------- | ---------------- | --------------- | ------------- | ---------------- | --------------- |
+| **gr17** | **2085**          |               |                  |                 |               |                  |                 |
+| **gr21** | **2707**          |               |                  |                 |               |                  |                 |
+| **gr24** | **1272**          |               |                  |                 |               |                  |                 |
+| **gr48** | **5046**          |               |                  |                 |               |                  |                 |
+
+### Runtime
+
+
+| set      | $t_{nn}\break$ (sec) | $t_{2opt}$ (sec) | $t_{both}$ (sec) |
+| -------- | -------------------- | ---------------- | ---------------- |
+| **gr17** |                      |                  |                  |
+| **gr21** |                      |                  |                  |
+| **gr24** |                      |                  |                  |
+| **gr48** |                      |                  |                  |
 
 ## Questions/Things to Follow Up On
 - 2-opt vs. 3-opt vs. Lin-Kernigham heuristic. I read about these, but don't fully understand them all, and want to try programming (and/or visualizing) them later.
