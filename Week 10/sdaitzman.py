@@ -40,6 +40,8 @@ def path_length(C, p):
     '''
     Returns the length of a path given its corresponding distance matrix.
 
+    (O(n^2))
+
     C: distance matrix
     p: a path through the nodes
     '''
@@ -97,6 +99,12 @@ def optimize_path_2opt(C, p, lim=None, max_iter=None):
     two-opt heuristic, which tries swapping all pairs of edges around and takes
     swaps that will reduce the local distance. This local search can reduce the
     number of crossing paths to eliminate some travel distance.
+
+    neither set -> O(n^2 * uh oh) => Algorithm is not useful if it doesn't ever
+    lim set -> O(n * uh oh) ===== => return a solution, so should guarantee that
+
+    max_iter set -> O(n^2 * max_iter)
+    lim & max_iter set -> O(n * lim * max_iter)
 
     C: distance matrix
     p: a path through the matrix

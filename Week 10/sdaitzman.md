@@ -10,7 +10,7 @@ I will implement a greedy heuristic-based traveling salesman algorithm using a n
 
 
 ## Exercise 2: Local Search Heuristic Traveling Salesman Algorithm
-> Implement a local search heuristic algorithm for the traveling salesman problem.We discussed a few options during class, but you are also free to invent your own.  Be sure to specify your algorithm below in a couple of sentences and explain why it is a local searchapproach.  To find an initial solution, your algorithm should run the greedy algorithm youimplemented above.
+> Implement a local search heuristic algorithm for the traveling salesman problem. We discussed a few options during class, but you are also free to invent your own.  Be sure to specify your algorithm below in a couple of sentences and explain why it is a local searchapproach.  To find an initial solution, your algorithm should run the greedy algorithm youimplemented above.
 
 To implement a local search heuristic-based traveling salesman algorithm, I will use a two-opt approach. The two-opt approach will take two edges somewhere in the graph, try swapping them as an experiment, and accept the swap if it improves the overall distance. It can be run to continue doing this until no improvement is found. For a pair of edges $(u_1, u_2)$ and $(v_1, v_2)$ it would try the alternate edges $(u1, v2)$ and $(v1, u2)$ which could reduce the total distance by eliminating an unnecessary crossing pathway.
 
@@ -20,19 +20,19 @@ In my implementation, I also support constraining the total number of iterations
 > Compare the results of your algorithms by recording the runtimes and optimality gaps.  Depending on your chosen algorithm, you should also consider different starting conditions that may affect the performance.  Record your results in a table below.  Then, in a few sentences, comment what you observe.  Do the results match what you expected?
 
 ### Optimality
-| set      | $min\break$ ideal | $min\break$NN | $min\break$ 2opt | $min\break$both | $gap\break$NN | $gap\break$ 2opt | $gap\break$both |
-| -------- | ----------------- | ------------- | ---------------- | --------------- | ------------- | ---------------- | --------------- |
-| **gr17** | **2085**          | 2187          | 4722             | 2088            | 102           | 2637             | 3               |
-| **gr21** | **2707**          | 3333          | 6620             | 2816            | 626           | 3913             | 109             |
-| **gr24** | **1272**          | 1553          | 3436             | 1278            | 281           | 2164             | 6               |
-| **gr48** | **5046**          | 6098          | 19837            | 5231            | 1052          | 14791            | 185             |
+| set      | $min$ ideal | $min$NN | $min$ 2opt | $min$both | $gap$NN | $gap$ 2opt | $gap$both |
+| -------- | ----------- | ------- | ---------- | --------- | ------- | ---------- | --------- |
+| **gr17** | **2085**    | 2187    | 4722       | 2088      | 102     | 2637       | 3         |
+| **gr21** | **2707**    | 3333    | 6620       | 2816      | 626     | 3913       | 109       |
+| **gr24** | **1272**    | 1553    | 3436       | 1278      | 281     | 2164       | 6         |
+| **gr48** | **5046**    | 6098    | 19837      | 5231      | 1052    | 14791      | 185       |
 
 Generally, these optimality results make a lot of sense. Obviously, none of my approaches quite reached an optimal solution, since I used quite a simple search heuristic and a naive nearest-neighbor implementation. I was surprised to see that two-opt actually performs *worse* than nearest-neighbor when not run with a sensical start path. Below, we also see that 2-opt is significantly less time-efficient (though this could be limited with the constraints on total iterations and local neighborhood size that my implementation allows for).
 
 ### Runtime
 
 
-| set      | $t_{nn}\break$ (ms) | $t_{2opt}$ (ms)    | $t_{both}$ (ms)    |
+| set      | $t_{nn}$ (ms)       | $t_{2opt}$ (ms)    | $t_{both}$ (ms)    |
 | -------- | ------------------- | ------------------ | ------------------ |
 | **gr17** | 0.18715858459472656 | 4.389286041259766  | 4.625797271728516  |
 | **gr21** | 0.2627372741699219  | 7.914066314697266  | 9.41014289855957   |
